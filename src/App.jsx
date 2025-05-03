@@ -6,13 +6,20 @@ import NavBar from "./components/NavBar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
-  const [mailBoxes, setMailBoxes] = useState([]);
+  const [mailBoxes, setMailBoxes] = useState(() => {
+    const savedMailboxes = localStorage.getItem("mailboxes");
+    return savedMailboxes ? JSON.parse(savedMailboxes) : [];
+  });
 
   const addBox = (newBox) => {
-    const newID = mailBoxes.length + 1;
-    const mailboxWithID = { ...newBox, _id: newID };
-    setMailBoxes([...mailBoxes, mailboxWithID]);
+    setMailBoxes((prev) => {
+      const newID = prev.length > 0 ? prev[prev.length - 1]._id + 1 : 1; // Increment last ID
+      const updatedMailboxes = [...prev, { ...newBox, _id: newID }];
+      localStorage.setItem("mailboxes", JSON.stringify(updatedMailboxes));
+      return updatedMailboxes;
+    });
   };
+
   return (
     <Router>
       <NavBar />

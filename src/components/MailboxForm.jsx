@@ -32,7 +32,7 @@ const MailBoxForm = ({ addMailbox }) => {
         Box Size:
         <br />
         <select value={boxSize} onChange={(e) => setBoxSize(e.target.value)}>
-          <option value="">Select</option>
+          <option value="Select">Select</option>
           <option value="Small">Small</option>
           <option value="Medium">Medium</option>
           <option value="Large">Large</option>
@@ -40,7 +40,9 @@ const MailBoxForm = ({ addMailbox }) => {
       </label>
       <br />
       <br />
-      <button type="submit">Create Mailbox</button>
+      <button type="submit" disabled={!boxOwner || !boxSize}>
+        Create Mailbox
+      </button>
     </form>
   );
 };
